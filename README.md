@@ -19,7 +19,7 @@ $ ./NameGen
 ```mv NameGen /usr/local/bin```
 
 
-## Example Usage
+# Example Usage
 ```
 $ ./NameGen
 .__   __.      ___      .___  ___.  _______   _______  _______ .__   __.
@@ -55,7 +55,7 @@ Enter Domain to Append:
 File Is Ready For User Enumeration
 ```
 
-# Results
+## Results
 ```$ head john.smith.txt```
 ```
 john.smith@domain.com
