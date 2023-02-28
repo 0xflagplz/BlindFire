@@ -57,7 +57,7 @@ func editFile() {
     fmt.Println("Enter Domain to Append: ")
     var domain string
     fmt.Scanln(&domain)
-    cmd := exec.Command("sed -i 's/$/@" + domain + "/' " + filename)
+    cmd := exec.Command("sed", "-i","s/$/@"+domain+"/",filename)
     err := cmd.Run()
 
     if err != nil {
