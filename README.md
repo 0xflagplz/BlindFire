@@ -12,11 +12,11 @@ https://github.com/insidetrust/statistically-likely-usernames
 ```
 $ go mod tidy
 $ go build
-$ ./NameGen
+$ ./BlindFire
 ```
 
 ## Execute From Anywhere
-```mv NameGen /usr/local/bin```
+```mv BlindFire /usr/local/bin```
 
 
 # Example Usage
