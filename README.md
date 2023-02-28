@@ -1,4 +1,4 @@
-# NameGen
+# BlindFire
 
 **Automated Statistically Likely for your User Enumeration.**
 
