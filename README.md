@@ -4,7 +4,7 @@
 
 **NOT** Windows Compatible
 
-This was a repetitive Perimeter process of identifying the email schema, downloading the correct file, and editing. The correct file can now be selected and modifyed from a single tool!
+This was a repetitive Perimeter process of identifying the email schema, downloading the correct file, and editing. The correct file can now be selected and modified from a single tool!
 
 https://github.com/insidetrust/statistically-likely-usernames
 
