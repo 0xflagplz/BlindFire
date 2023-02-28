@@ -1,4 +1,4 @@
-module NameGen
+module BlindFire
 
 go 1.20
 
