@@ -12,7 +12,7 @@ https://github.com/insidetrust/statistically-likely-usernames
 ```
 $ go mod tidy
 $ go build
-$ ./BlindFire
+$ ./BlindFire -h
 ```
 
 ## Execute From Anywhere
