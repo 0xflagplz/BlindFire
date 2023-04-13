@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -41,15 +42,19 @@ func domainValidatiton(domain string) {
 	matched, err := regexp.MatchString(`^(([a-zA-Z]{1})|([a-zA-Z]{1}[a-zA-Z]{1})|([a-zA-Z]{1}[0-9]{1})|([0-9]{1}[a-zA-Z]{1})|([a-zA-Z0-9][a-zA-Z0-9-_]{1,61}[a-zA-Z0-9]))\.([a-zA-Z]{2,6}|[a-zA-Z0-9-]{2,30}\.[a-zA-Z]{2,3})$`, domain)
 	if matched== false {
 		
-		fmt.Println("The answer is an Invalid Entry")
+		fmt.Printf("\nDomain is INVALID\n\n")
 		fmt.Println("Would you like to add a domain? (Y or N)")
 		var question string
 		fmt.Scanln(&question)
 		if question == "Y" || question == "y" {
-			domainInput()
+			fmt.Println("Enter Domain to Append: ")
+			var domain string
+			fmt.Scanln(&domain)
+			domainValidatiton(domain)
+
 		}
 		if question == "N" || question == "n" {
-			quitter()
+			return
 			fmt.Println(err)
 		}
 
@@ -88,11 +93,79 @@ func downloadFile(number int) {
 	filename = test[entry]
 }
 
-func domainInput() {
-	fmt.Println("Enter Domain to Append: ")
-	var domain string
-	fmt.Scanln(&domain)
-	domainValidatiton(domain)
+type FlagOptions struct {
+	domainPtr  	string
+	listPtr 	 	string
+	empty   	 	bool
+}
+
+func options() *FlagOptions {
+	domainPtr := flag.String("domain", " ", "Domain To Append")
+	listPtr := flag.String("list", "", "List To Download")
+	empty := flag.Bool("empty", false, `Do NOT append domain to the list`)
+
+	flag.Parse()
+	return &FlagOptions{domainPtr: *domainPtr, listPtr: *listPtr, empty: *empty}
+}
+
+func listCheck(input string) int {
+   array := [15]string{"jjs", "jjsmith", "john.smith", "john", "johnjs", "johns", "johnsmith", "jsmith", "jsmith2", "places", "service-accounts", "smith", "smithj", "smithj2", "smithjj"}
+   var element string = input
+   fmt.Println("The list to check for: ",element)
+   var result bool = false
+   for i := 0; i < len(array); i++ {
+      if array[i] == element {
+            result = true
+            return i + 1
+      }
+   }      
+   if !result {
+      fmt.Print(element, " Does not exist. Valid List Enteries: ")
+      fmt.Printf("\n\njjs\njjsmith\njohn.smith\njohn\njohnjs\njohns\njohnsmith\njsmith\njsmith2\nplaces\nservice-accounts\nsmith\nsmithj\nsmithj2\nsmithjj")
+      os.Exit(3)
+   }
+   return 9999
+}
+
+func execute(opt *FlagOptions) {
+	if opt.empty == false{
+		fmt.Println("Append Domain: Enabled")
+		if opt.domainPtr == " " && opt.listPtr == "" {
+			fmt.Println("You need to specify a domain or list!")
+			os.Exit(3)
+		}
+		
+		if opt.listPtr == "" {
+		
+			// if the list arg is empty prompt with list to select
+			num := selectList()
+			downloadFile(num)
+			domainValidatiton(opt.domainPtr)
+			fmt.Println("File Is Ready For User Enumeration")
+		} else {
+
+			// if the list arg is used, check to ensure it is in the list, and download
+			num := listCheck(opt.listPtr)
+			downloadFile(num)
+			domainValidatiton(opt.domainPtr)
+			fmt.Println("File Is Ready For User Enumeration")
+		}
+	} else {
+		fmt.Print("Append Domain: Disabled")
+		if opt.listPtr == "" {
+		
+			// if the list arg is empty prompt with list to select
+			num := selectList()
+			downloadFile(num)
+			fmt.Println("File Is Ready For User Enumeration")
+		} else {
+			// if the list arg is used, check to ensure it is in the list, and download
+			num := listCheck(opt.listPtr)
+			downloadFile(num)
+			fmt.Println("File Is Ready For User Enumeration")
+		}		
+
+	}
 
 }
 
@@ -106,10 +179,10 @@ func main() {
 		"                                                                                       \n" +
 		"                                                   @AchocolatechipPancake\n"
 
+
+	
+	opt := options()
 	fmt.Print(header)
-	num := selectList()
-	downloadFile(num)
-	domainInput()
-	fmt.Println("File Is Ready For User Enumeration")
+	execute(opt)
 	os.Exit(3)
 }
